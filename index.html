@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accelerando AI — The Singularity Is Coming</title>
+<meta name="description" content="Building tech and products to future-proof society and the planet. The singularity is coming. Buckle up.">
+<meta property="og:title" content="Accelerando AI">
+<meta property="og:description" content="Building tech and products to future-proof society and the planet.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://accelerando.ai">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@AccelrandoAI">
+<link rel="canonical" href="https://accelerando.ai">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050508;color:#c0c0c0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
+
+/* Scanline effect */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);z-index:100}
+
+.container{max-width:700px;margin:0 auto;padding:2rem;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+
+/* Pixel art grid decoration */
+.pixel-grid{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.03;background-image:
+  linear-gradient(rgba(0,255,136,0.3) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0,255,136,0.3) 1px, transparent 1px);
+background-size:20px 20px;z-index:0}
+
+.content{position:relative;z-index:1}
+
+/* Glitch text effect on hover */
+.hero-title{font-size:2.8rem;font-weight:bold;color:#00ff88;margin-bottom:0.5rem;letter-spacing:-0.02em;position:relative;cursor:default}
+.hero-title:hover{animation:glitch 0.3s ease}
+@keyframes glitch{
+0%{transform:translate(0)}
+20%{transform:translate(-2px,2px)}
+40%{transform:translate(2px,-2px)}
+60%{transform:translate(-1px,-1px)}
+80%{transform:translate(1px,1px)}
+100%{transform:translate(0)}
+}
+
+.subtitle{font-size:1.4rem;color:#888;margin-bottom:3rem;line-height:1.6}
+.subtitle em{color:#ff6600;font-style:normal}
+
+/* Terminal-style blinking cursor */
+.cursor{display:inline-block;width:10px;height:1.4rem;background:#00ff88;animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Pixel art decorations */
+.pixel-art{margin:2rem 0;font-size:0.6rem;line-height:1;color:#00ff8830;white-space:pre;font-family:'Courier New',monospace;user-select:none}
+
+.manifesto{color:#666;font-size:0.9rem;line-height:1.8;margin-bottom:3rem;border-left:2px solid #00ff8830;padding-left:1.5rem}
+
+/* Projects */
+.projects-header{color:#00ff88;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem}
+.project-card{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:8px;padding:1.5rem;margin-bottom:1rem;transition:border-color 0.3s,transform 0.2s;cursor:pointer;text-decoration:none;display:block}
+.project-card:hover{border-color:#00ff88;transform:translateX(4px)}
+.project-name{color:#00ff88;font-size:1.1rem;font-weight:bold;margin-bottom:0.3rem}
+.project-tag{display:inline-block;padding:0.15rem 0.5rem;background:#00ff8810;color:#00ff88;border-radius:4px;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
+.project-desc{color:#888;font-size:0.85rem;line-height:1.6}
+.project-stat{color:#555;font-size:0.75rem;margin-top:0.5rem}
+
+/* Mailing list */
+.mailing{margin-top:3rem;padding-top:2rem;border-top:1px solid #1a1a2a}
+.mailing h3{color:#ff6600;font-size:0.9rem;margin-bottom:0.5rem}
+.mailing p{color:#555;font-size:0.8rem;margin-bottom:1rem}
+.mailing form{display:flex;gap:0.5rem;max-width:400px}
+.mailing input{flex:1;padding:0.6rem 0.8rem;background:#0a0a0f;border:1px solid #1a1a2a;border-radius:6px;color:#fff;font-family:inherit;font-size:0.85rem}
+.mailing input:focus{outline:none;border-color:#00ff88}
+.mailing button{padding:0.6rem 1.2rem;background:#00ff88;color:#050508;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:0.85rem;white-space:nowrap}
+.mailing button:hover{background:#00cc6a}
+
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #0a0a1a;color:#333;font-size:0.7rem;text-align:center}
+footer a{color:#444;text-decoration:none}
+footer a:hover{color:#00ff88}
+
+/* Responsive */
+@media(max-width:600px){
+.hero-title{font-size:2rem}
+.subtitle{font-size:1.1rem}
+.pixel-art{display:none}
+}
+</style>
+</head>
+<body>
+<div class="pixel-grid"></div>
+<div class="container">
+<div class="content">
+
+<div class="pixel-art">
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+█  ░▒▓█ ACCELERANDO AI █▓▒░              █
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+</div>
+
+<h1 class="hero-title">The singularity is coming.<span class="cursor"></span></h1>
+<p class="subtitle">We're building tech and products to <em>future-proof society and the planet</em>. Buckle up.</p>
+
+<div class="manifesto">
+The most powerful technologies start as toys. The transistor. The internet. The smartphone. AI agents on $3 chips will feel like a toy too — until every device on Earth has one. We're building the infrastructure for that future.
+</div>
+
+<div class="projects-header">// PROJECTS</div>
+
+<a href="https://yoctoclaw.github.io" class="project-card">
+<div class="project-name">🦐 KrillClaw™</div>
+<div class="project-tag">Shipping</div>
+<div class="project-desc">The smallest AI agent runtime for edge devices. 180KB binary, zero dependencies, written in Zig. Runs on a $3 ESP32 — no OS required. Every device gets an AI brain.</div>
+<div class="project-stat">MIT License · Patent Pending</div>
+</a>
+
+<a href="#" class="project-card" style="opacity:0.5;cursor:default" onclick="return false">
+<div class="project-name" style="color:#555">🔮 [REDACTED]</div>
+<div class="project-tag" style="background:#ff660010;color:#ff6600">Coming Soon</div>
+<div class="project-desc" style="color:#444">Every object, its own soul. Coming when the world is ready.</div>
+</a>
+
+<div class="mailing">
+<h3>Get signals from the future</h3>
+<p>Rare emails about new projects, launches, and things we find interesting. No spam. Unsubscribe anytime.</p>
+<form onsubmit="event.preventDefault();this.querySelector('button').textContent='You\'re in ⚡';this.querySelector('button').style.background='#00cc6a'">
+<input type="email" placeholder="your@email.com" required>
+<button type="submit">Subscribe</button>
+</form>
+</div>
+
+<footer>
+<a href="https://x.com/AccelrandoAI">@AccelrandoAI</a> · <a href="https://github.com/yoctoclaw">GitHub</a> · <a href="/privacy">Privacy</a>
+<br><br>© 2026 Accelerando AI
+</footer>
+
+</div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Accelerando AI",
+  "url": "https://accelerando.ai",
+  "description": "Building tech and products to future-proof society and the planet.",
+  "sameAs": ["https://x.com/AccelrandoAI", "https://github.com/yoctoclaw"]
+}
+</script>
+</body>
+</html>
