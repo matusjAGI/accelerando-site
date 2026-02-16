@@ -113,9 +113,9 @@ footer a:hover{color:#00ff88}
 <div class="pixel-banner">
 ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
-█░░   ▄▀▄  ▄▀▀  ▄▀▀  █▀▀  █    █▀▀  █▀▄  ▄▀▄  █▄ █  █▀▄  █▀█     ▄▀▄  █▀▀▀  ░░█
-█░░   █▀█  █    █    █▀   █    █▀   █▀▄  █▀█  █ ▀█  █ █  █ █     █▀█   █    ░░█
-█░░   ▀ ▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀ ▀  ▀ ▀  ▀  ▀  ▀▀   ▀▀▀    ▀ ▀  ▀▀▀▀  ░░█
+█░░   ▄▀▄  ▄▀▀  ▄▀▀  █▀▀  █    █▀▀  █▀▄  ▄▀▄  █▄ █  █▀▄  █▀█     ▄▀▄  █▀█  ░░█
+█░░   █▀█  █    █    █▀   █    █▀   █▀▄  █▀█  █ ▀█  █ █  █ █     █▀█   █   ░░█
+█░░   ▀ ▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀ ▀  ▀ ▀  ▀  ▀  ▀▀   ▀▀▀    ▀ ▀  ▀▀▀  ░░█
 █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
 ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 </div>
@@ -148,7 +148,6 @@ The most powerful technologies start as toys. The transistor. The internet. The 
 <p>Rare emails about new projects, launches, and things we find interesting. No spam. Unsubscribe anytime.</p>
 <form class="mailing-form" id="accelerando-waitlist">
 <input type="email" id="email-input" placeholder="your@email.com" required>
-<input type="text" id="acc-website" name="website" style="position:absolute;left:-9999px;opacity:0;height:0" tabindex="-1" autocomplete="off">
 <button type="submit">Subscribe</button>
 </form>
 <div class="success-msg" id="success-msg">You're in ⚡ We'll be in touch.</div>
@@ -166,23 +165,24 @@ The most powerful technologies start as toys. The transistor. The internet. The 
 document.getElementById('accelerando-waitlist').addEventListener('submit', function(e) {
   e.preventDefault();
   var email = document.getElementById('email-input').value;
-  var honeypot = document.getElementById('acc-website').value;
   var btn = this.querySelector('button');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  var ENDPOINT = 'APPS_SCRIPT_ENDPOINT';
-  fetch(ENDPOINT, {
-    method: 'POST',
-    headers: {'Content-Type': 'text/plain'},
-    body: JSON.stringify({email: email, source: 'accelerando.ai', timestamp: new Date().toISOString(), userAgent: navigator.userAgent, website: honeypot})
-  }).then(function() {
-    document.querySelector('.mailing-form').style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
-  }).catch(function() {
-    document.querySelector('.mailing-form').style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
-  });
-});
+  
+  // POST to Cloudflare Worker or Google Apps Script
+  var endpoint = this.dataset.endpoint || '';
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: email, source: 'accelerando.ai', timestamp: new Date().toISOString()})
+    }).then(function() {
+      document.querySelector('.mailing-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }).catch(function() {
+      document.querySelector('.mailing-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    });
   } else {
     // Fallback: just show success (endpoint not configured yet)
     document.querySelector('.mailing-form').style.display = 'none';
