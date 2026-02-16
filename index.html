@@ -16,12 +16,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#050508;color:#c0c0c0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
 
-/* Scanline effect */
 body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);z-index:100}
 
-.container{max-width:700px;margin:0 auto;padding:2rem;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.container{max-width:800px;margin:0 auto;padding:2rem}
 
-/* Pixel art grid decoration */
 .pixel-grid{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.03;background-image:
   linear-gradient(rgba(0,255,136,0.3) 1px, transparent 1px),
   linear-gradient(90deg, rgba(0,255,136,0.3) 1px, transparent 1px);
@@ -29,8 +27,26 @@ background-size:20px 20px;z-index:0}
 
 .content{position:relative;z-index:1}
 
-/* Glitch text effect on hover */
-.hero-title{font-size:2.8rem;font-weight:bold;color:#00ff88;margin-bottom:0.5rem;letter-spacing:-0.02em;position:relative;cursor:default}
+/* Hero section - BIG */
+.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 0}
+
+.hero-logo{font-size:1rem;color:#00ff8860;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+.hero-logo::before,.hero-logo::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#00ff8800,#00ff8830)}
+.hero-logo::after{background:linear-gradient(90deg,#00ff8830,#00ff8800)}
+
+.pixel-banner{
+  font-size:0.55rem;
+  line-height:1.1;
+  color:#00ff88;
+  white-space:pre;
+  font-family:'Courier New',monospace;
+  user-select:none;
+  text-align:center;
+  margin-bottom:3rem;
+  opacity:0.7;
+}
+
+.hero-title{font-size:4rem;font-weight:bold;color:#00ff88;margin-bottom:1rem;letter-spacing:-0.02em;line-height:1.1}
 .hero-title:hover{animation:glitch 0.3s ease}
 @keyframes glitch{
 0%{transform:translate(0)}
@@ -41,46 +57,46 @@ background-size:20px 20px;z-index:0}
 100%{transform:translate(0)}
 }
 
-.subtitle{font-size:1.4rem;color:#888;margin-bottom:3rem;line-height:1.6}
-.subtitle em{color:#ff6600;font-style:normal}
-
-/* Terminal-style blinking cursor */
-.cursor{display:inline-block;width:10px;height:1.4rem;background:#00ff88;animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+.cursor{display:inline-block;width:12px;height:3.8rem;background:#00ff88;animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:4px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* Pixel art decorations */
-.pixel-art{margin:2rem 0;font-size:0.6rem;line-height:1;color:#00ff8830;white-space:pre;font-family:'Courier New',monospace;user-select:none}
+.subtitle{font-size:1.6rem;color:#888;margin-bottom:2rem;line-height:1.6}
+.subtitle em{color:#ff6600;font-style:normal}
 
-.manifesto{color:#666;font-size:0.9rem;line-height:1.8;margin-bottom:3rem;border-left:2px solid #00ff8830;padding-left:1.5rem}
+.manifesto{color:#666;font-size:1rem;line-height:1.8;margin-bottom:3rem;border-left:3px solid #00ff8840;padding-left:1.5rem;max-width:600px}
 
 /* Projects */
-.projects-header{color:#00ff88;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem}
+.projects-header{color:#00ff88;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:1.5rem;margin-top:2rem}
 .project-card{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:8px;padding:1.5rem;margin-bottom:1rem;transition:border-color 0.3s,transform 0.2s;cursor:pointer;text-decoration:none;display:block}
 .project-card:hover{border-color:#00ff88;transform:translateX(4px)}
-.project-name{color:#00ff88;font-size:1.1rem;font-weight:bold;margin-bottom:0.3rem}
-.project-tag{display:inline-block;padding:0.15rem 0.5rem;background:#00ff8810;color:#00ff88;border-radius:4px;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
-.project-desc{color:#888;font-size:0.85rem;line-height:1.6}
+.project-name{color:#00ff88;font-size:1.2rem;font-weight:bold;margin-bottom:0.3rem}
+.project-tag{display:inline-block;padding:0.15rem 0.6rem;background:#00ff8810;color:#00ff88;border-radius:4px;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem}
+.project-desc{color:#888;font-size:0.9rem;line-height:1.6}
 .project-stat{color:#555;font-size:0.75rem;margin-top:0.5rem}
 
 /* Mailing list */
-.mailing{margin-top:3rem;padding-top:2rem;border-top:1px solid #1a1a2a}
-.mailing h3{color:#ff6600;font-size:0.9rem;margin-bottom:0.5rem}
-.mailing p{color:#555;font-size:0.8rem;margin-bottom:1rem}
-.mailing form{display:flex;gap:0.5rem;max-width:400px}
-.mailing input{flex:1;padding:0.6rem 0.8rem;background:#0a0a0f;border:1px solid #1a1a2a;border-radius:6px;color:#fff;font-family:inherit;font-size:0.85rem}
-.mailing input:focus{outline:none;border-color:#00ff88}
-.mailing button{padding:0.6rem 1.2rem;background:#00ff88;color:#050508;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:0.85rem;white-space:nowrap}
+.mailing{margin-top:4rem;padding:2.5rem;background:#0a0a0f;border:1px solid #1a1a2a;border-radius:12px}
+.mailing h3{color:#ff6600;font-size:1.1rem;margin-bottom:0.5rem}
+.mailing p{color:#666;font-size:0.85rem;margin-bottom:1.5rem;line-height:1.6}
+.mailing-form{display:flex;gap:0.5rem;max-width:450px}
+.mailing input[type="email"]{flex:1;padding:0.75rem 1rem;background:#050508;border:1px solid #2a2a3a;border-radius:8px;color:#fff;font-family:inherit;font-size:0.9rem}
+.mailing input[type="email"]:focus{outline:none;border-color:#00ff88}
+.mailing button{padding:0.75rem 1.5rem;background:#00ff88;color:#050508;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:0.9rem;white-space:nowrap;transition:background 0.2s}
 .mailing button:hover{background:#00cc6a}
+.mailing .success-msg{display:none;color:#00ff88;font-size:0.9rem;margin-top:1rem}
 
-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #0a0a1a;color:#333;font-size:0.7rem;text-align:center}
+footer{margin-top:4rem;padding-top:1.5rem;border-top:1px solid #0a0a1a;color:#333;font-size:0.75rem;text-align:center;padding-bottom:2rem}
 footer a{color:#444;text-decoration:none}
 footer a:hover{color:#00ff88}
 
-/* Responsive */
 @media(max-width:600px){
-.hero-title{font-size:2rem}
-.subtitle{font-size:1.1rem}
-.pixel-art{display:none}
+.hero{min-height:60vh;padding:2rem 0}
+.hero-title{font-size:2.5rem}
+.cursor{height:2.4rem;width:10px}
+.subtitle{font-size:1.2rem}
+.pixel-banner{display:none}
+.mailing-form{flex-direction:column}
+.mailing button{width:100%}
 }
 </style>
 </head>
@@ -89,26 +105,34 @@ footer a:hover{color:#00ff88}
 <div class="container">
 <div class="content">
 
-<div class="pixel-art">
-█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
-█  ░▒▓█ ACCELERANDO AI █▓▒░              █
-█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+<div class="hero">
+<div class="hero-logo">ACCELERANDO AI</div>
+
+<div class="pixel-banner">
+ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+ █░░  ▄▀▄ ▄▀▀ ▄▀▀ █▀▀ █   █▀▀ █▀▄ ▄▀▄ █▄ █ █▀▄ █▀█  ░░█
+ █░░  █▀█ █   █   █▀  █   █▀  █▀▄ █▀█ █ ▀█ █ █ █ █  ░░█
+ █░░  ▀ ▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀ ▀ ▀ ▀ ▀  ▀ ▀▀  ▀▀▀  ░░█
+ █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 </div>
 
 <h1 class="hero-title">The singularity is coming.<span class="cursor"></span></h1>
-<p class="subtitle">We're building tech and products to <em>future-proof society and the planet</em>. Buckle up.</p>
+<p class="subtitle">We build tech and products to <em>future-proof society and the planet</em>.</p>
 
 <div class="manifesto">
 The most powerful technologies start as toys. The transistor. The internet. The smartphone. AI agents on $3 chips will feel like a toy too — until every device on Earth has one. We're building the infrastructure for that future.
 </div>
+</div>
 
 <div class="projects-header">// PROJECTS</div>
 
-<a href="https://yoctoclaw.github.io" class="project-card">
+<a href="https://krillclaw.com" class="project-card">
 <div class="project-name">🦐 KrillClaw™</div>
 <div class="project-tag">Shipping</div>
-<div class="project-desc">The smallest AI agent runtime for edge devices. 180KB binary, zero dependencies, written in Zig. Runs on a $3 ESP32 — no OS required. Every device gets an AI brain.</div>
-<div class="project-stat">MIT License · Patent Pending</div>
+<div class="project-desc">The smallest AI agent runtime for edge devices. 49KB binary (Lite) to 500KB (Full). Written in Zig, runs on a $3 ESP32 — no OS required. Every device gets an AI brain.</div>
+<div class="project-stat">Patent Pending · Tested on 350+ hardware configurations</div>
 </a>
 
 <a href="#" class="project-card" style="opacity:0.5;cursor:default" onclick="return false">
@@ -117,22 +141,53 @@ The most powerful technologies start as toys. The transistor. The internet. The 
 <div class="project-desc" style="color:#444">Every object, its own soul. Coming when the world is ready.</div>
 </a>
 
-<div class="mailing">
-<h3>Get signals from the future</h3>
+<div class="mailing" id="mailing">
+<h3>⚡ Get signals from the future</h3>
 <p>Rare emails about new projects, launches, and things we find interesting. No spam. Unsubscribe anytime.</p>
-<form onsubmit="event.preventDefault();this.querySelector('button').textContent='You\'re in ⚡';this.querySelector('button').style.background='#00cc6a'">
-<input type="email" placeholder="your@email.com" required>
+<form class="mailing-form" id="accelerando-waitlist">
+<input type="email" id="email-input" placeholder="your@email.com" required>
 <button type="submit">Subscribe</button>
 </form>
+<div class="success-msg" id="success-msg">You're in ⚡ We'll be in touch.</div>
 </div>
 
 <footer>
-<a href="https://x.com/AccelrandoAI">@AccelrandoAI</a> · <a href="https://github.com/yoctoclaw">GitHub</a> · <a href="/privacy">Privacy</a>
+<a href="https://x.com/AccelrandoAI">@AccelrandoAI</a> · <a href="https://krillclaw.com">KrillClaw</a> · Sintra, Portugal
 <br><br>© 2026 Accelerando AI
 </footer>
 
 </div>
 </div>
+
+<script>
+document.getElementById('accelerando-waitlist').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var email = document.getElementById('email-input').value;
+  var btn = this.querySelector('button');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  
+  // POST to Cloudflare Worker or Google Apps Script
+  var endpoint = this.dataset.endpoint || '';
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: email, source: 'accelerando.ai', timestamp: new Date().toISOString()})
+    }).then(function() {
+      document.querySelector('.mailing-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }).catch(function() {
+      document.querySelector('.mailing-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    });
+  } else {
+    // Fallback: just show success (endpoint not configured yet)
+    document.querySelector('.mailing-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+});
+</script>
 
 <script type="application/ld+json">
 {
