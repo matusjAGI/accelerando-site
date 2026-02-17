@@ -34,26 +34,20 @@ background-size:20px 20px;z-index:0}
 .hero-logo::before,.hero-logo::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#00ff8800,#00ff8830)}
 .hero-logo::after{background:linear-gradient(90deg,#00ff8830,#00ff8800)}
 
-.pixel-banner{display:none}
-
-.logo-box{
-  border:2px solid #00ff88;
-  display:inline-block;
-  padding:1rem 2.5rem;
-  margin-bottom:3rem;
-  position:relative;
-  background:#00ff8808;
-}
-.logo-box::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;background:#050508}
-.logo-box::after{content:'';position:absolute;bottom:-1px;left:10%;right:10%;height:1px;background:#050508}
-.logo-text{
-  font-size:2rem;
-  font-weight:bold;
+.pixel-banner{
+  font-size:0.85rem;
+  line-height:1.1;
   color:#00ff88;
-  letter-spacing:0.25em;
+  white-space:pre;
   font-family:'Courier New',monospace;
-  text-shadow:0 0 20px #00ff8840;
+  user-select:none;
+  text-align:center;
+  margin-bottom:3rem;
+  opacity:0.7;
+  width:100%;
+  overflow:hidden;
 }
+@media(max-width:600px){.pixel-banner{font-size:0.4rem}}
 
 .hero-title{font-size:4rem;font-weight:bold;color:#00ff88;margin-bottom:1rem;letter-spacing:-0.02em;line-height:1.1}
 .hero-title:hover{animation:glitch 0.3s ease}
@@ -117,8 +111,14 @@ footer a:hover{color:#00ff88}
 <div class="hero">
 <div class="hero-logo">A C C E L E R A N D O · A I</div>
 
-<div class="logo-box">
-<span class="logo-text">ACCELERANDO AI</span>
+<div class="pixel-banner">
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+█░░   ▄▀▄  ▄▀▀  ▄▀▀  █▀▀  █    █▀▀  █▀▄  ▄▀▄  █▄ █  █▀▄  █▀█     ▄▀▄  █  ░░█
+█░░   █▀█  █    █    █▀   █    █▀   █▀▄  █▀█  █ ▀█  █ █  █ █     █▀█  █  ░░█
+█░░   ▀ ▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀▀▀  ▀ ▀  ▀ ▀  ▀  ▀  ▀▀   ▀▀▀    ▀ ▀  ▀  ░░█
+█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 </div>
 
 <h1 class="hero-title">The singularity is coming.<span class="cursor"></span></h1>
