@@ -174,8 +174,9 @@ document.getElementById('accelerando-waitlist').addEventListener('submit', funct
   var endpoint = this.dataset.endpoint || '';
   if (endpoint) {
     fetch(endpoint, {
+      mode: 'no-cors',
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'text/plain'},
       body: JSON.stringify({email: email, source: 'accelerando.ai', timestamp: new Date().toISOString()})
     }).then(function() {
       document.querySelector('.mailing-form').style.display = 'none';
