@@ -11,7 +11,12 @@
 <meta property="og:url" content="https://accelerando.ai">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@AccelrandoAI">
+<meta name="twitter:title" content="Accelerando AI — The Singularity Is Coming">
+<meta name="twitter:description" content="Building tech and products to future-proof society and the planet.">
+<meta property="og:image" content="https://accelerando.ai/og-image.png">
+<meta name="twitter:image" content="https://accelerando.ai/og-image.png">
 <link rel="canonical" href="https://accelerando.ai">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#050508;color:#c0c0c0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
@@ -138,20 +143,22 @@ The most powerful technologies start as toys. The transistor. The internet. The 
 <div class="project-stat">Patent Pending · Tested on 350+ hardware configurations</div>
 </a>
 
-<a href="#" class="project-card" style="opacity:0.5;cursor:default" onclick="return false">
+<div class="project-card" style="opacity:0.5;cursor:default;pointer-events:none">
 <div class="project-name" style="color:#555">🔮 [REDACTED]</div>
 <div class="project-tag" style="background:#ff660010;color:#ff6600">Coming Soon</div>
 <div class="project-desc" style="color:#777">Every object, its own soul. Coming when the world is ready.</div>
-</a>
+</div>
 
 <div class="mailing" id="mailing">
 <h3>⚡ Get signals from the future</h3>
 <p>Rare emails about new projects, launches, and things we find interesting. No spam. Unsubscribe anytime.</p>
 <form class="mailing-form" id="accelerando-waitlist" data-endpoint="https://script.google.com/macros/s/AKfycbw6kTtoJXw4WohgIlOCfXSu0HIUYdNqaIfjHb0zIzW9--f3y5BVknrIu02xNLV0DpOL/exec">
+<input type="text" name="website" id="honeypot" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
 <input type="email" id="email-input" placeholder="your@email.com" required>
 <button type="submit">Subscribe</button>
 </form>
 <div class="success-msg" id="success-msg">You're in ⚡ We'll be in touch.</div>
+<div class="error-msg" id="error-msg" style="display:none;color:#ff4444;font-size:0.9rem;margin-top:1rem">Something went wrong. Please try again.</div>
 </div>
 
 <footer>
@@ -165,6 +172,7 @@ The most powerful technologies start as toys. The transistor. The internet. The 
 <script>
 document.getElementById('accelerando-waitlist').addEventListener('submit', function(e) {
   e.preventDefault();
+  if (document.getElementById('honeypot').value) return; // bot detected
   var email = document.getElementById('email-input').value;
   var btn = this.querySelector('button');
   btn.textContent = 'Sending...';
@@ -182,8 +190,9 @@ document.getElementById('accelerando-waitlist').addEventListener('submit', funct
       document.querySelector('.mailing-form').style.display = 'none';
       document.getElementById('success-msg').style.display = 'block';
     }).catch(function() {
-      document.querySelector('.mailing-form').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
+      btn.textContent = 'Subscribe';
+      btn.disabled = false;
+      document.getElementById('error-msg').style.display = 'block';
     });
   } else {
     // Fallback: just show success (endpoint not configured yet)
