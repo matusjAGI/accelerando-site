@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Guide — Accelerando AI</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050508;color:#c0c0c0;font-family:'Courier New',monospace;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);z-index:100}
+.pixel-grid{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.03;background-image:linear-gradient(rgba(0,255,136,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.3) 1px,transparent 1px);background-size:20px 20px;z-index:0}
+
+/* ===== LOCK SCREEN ===== */
+#lock-screen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:50;display:flex;align-items:center;justify-content:center;background:#050508}
+.lock-box{text-align:center;max-width:400px;padding:2rem}
+.lock-icon{font-size:3rem;margin-bottom:1.5rem;opacity:0.5}
+.lock-box h1{color:#00ff88;font-size:1.5rem;margin-bottom:0.5rem}
+.lock-box p{color:#777;font-size:0.85rem;margin-bottom:2rem;line-height:1.6}
+.lock-input{width:100%;padding:0.85rem 1.2rem;background:#0a0a0f;border:1px solid #2a2a3a;border-radius:8px;color:#fff;font-family:inherit;font-size:1rem;text-align:center;letter-spacing:0.15em;margin-bottom:1rem}
+.lock-input:focus{outline:none;border-color:#00ff88}
+.lock-input::placeholder{letter-spacing:0.05em;color:#555}
+.lock-btn{width:100%;padding:0.75rem;background:#00ff88;color:#050508;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:0.9rem;transition:background 0.2s}
+.lock-btn:hover{background:#00cc6a}
+.lock-error{color:#ff4444;font-size:0.8rem;margin-top:0.75rem;display:none}
+
+/* ===== MAIN CONTENT ===== */
+#main-content{display:none;position:relative;z-index:1}
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+
+/* Top bar */
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #1a1a2a}
+.top-bar a{color:#00ff88;text-decoration:none;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase}
+.top-bar a:hover{opacity:0.7}
+
+/* Download section */
+.downloads{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:12px;padding:2rem;margin-bottom:3rem}
+.downloads h2{color:#00ff88;font-size:1.1rem;margin-bottom:0.5rem}
+.downloads p{color:#888;font-size:0.85rem;margin-bottom:1.5rem;line-height:1.6}
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+@media(max-width:600px){.dl-grid{grid-template-columns:1fr}}
+.dl-card{display:flex;align-items:center;gap:1rem;padding:1rem;background:#0f1015;border:1px solid #1a1a2a;border-radius:8px;text-decoration:none;color:#c0c0c0;transition:border-color 0.2s,transform 0.2s}
+.dl-card:hover{border-color:#00ff88;transform:translateX(3px)}
+.dl-icon{font-size:1.5rem;width:2.5rem;text-align:center;flex-shrink:0}
+.dl-info{flex:1;min-width:0}
+.dl-info strong{display:block;color:#fff;font-size:0.9rem;margin-bottom:0.15rem}
+.dl-info span{color:#777;font-size:0.75rem}
+.dl-badge{padding:0.2rem 0.6rem;background:#00ff8810;color:#00ff88;border-radius:4px;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}
+
+/* Guide content area */
+.guide-frame{width:100%;border:none;border-radius:12px;min-height:80vh}
+
+/* Section headers */
+h2.section-title{color:#00ff88;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.2em;margin:3rem 0 1rem}
+
+/* ===== INLINE GUIDE (embedded) ===== */
+.guide-content{color:#c0c0c0;line-height:1.7}
+.guide-content h2{color:#7aa2f7;font-size:1.3rem;margin:2.5rem 0 1rem;padding-top:1rem;border-top:1px solid #1a1a2a}
+.guide-content h3{color:#bb9af7;font-size:1.05rem;margin:1.5rem 0 0.5rem}
+.guide-content p{margin:0.5rem 0;font-size:0.9rem}
+.guide-content .analogy{color:#d4a574;font-style:italic;font-size:0.85rem;padding-left:1rem;border-left:2px solid #d4a574;margin:0.75rem 0}
+.guide-content .cmd{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:6px;padding:0.6rem 1rem;margin:0.75rem 0;font-size:0.85rem;color:#9ece6a;overflow-x:auto;white-space:pre;display:block}
+.guide-content .cmd-label{color:#555;font-size:0.75rem;margin-bottom:-0.4rem;margin-top:0.75rem}
+.guide-content .note{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.15);border-radius:8px;padding:1rem;font-size:0.85rem;color:#00ff88;margin:1rem 0}
+.guide-content .warning{background:rgba(255,68,68,0.05);border:1px solid rgba(255,68,68,0.15);border-radius:8px;padding:1rem;font-size:0.85rem;color:#ff6666;margin:1rem 0}
+
+/* Flow diagram */
+.flow{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;justify-content:center;margin:2rem 0;padding:1.5rem;background:#0a0a0f;border:1px solid #1a1a2a;border-radius:12px}
+.flow-box{padding:0.5rem 0.75rem;border-radius:8px;font-size:0.75rem;font-weight:bold;text-align:center}
+.flow-arrow{color:#555;font-size:1rem}
+.fb-design{background:rgba(187,154,247,0.1);color:#bb9af7;border:1px solid #bb9af740}
+.fb-build{background:rgba(158,206,106,0.1);color:#9ece6a;border:1px solid #9ece6a40}
+.fb-test{background:rgba(212,165,116,0.1);color:#d4a574;border:1px solid #d4a57440}
+.fb-ship{background:rgba(247,118,142,0.1);color:#f7768e;border:1px solid #f7768e40}
+.fb-review{background:rgba(122,162,247,0.1);color:#7aa2f7;border:1px solid #7aa2f740}
+
+/* Timeline */
+.timeline{position:relative;padding-left:2.5rem}
+.timeline::before{content:'';position:absolute;left:0.75rem;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#bb9af7,#7aa2f7,#9ece6a,#d4a574,#f7768e)}
+.step{position:relative;margin-bottom:1.5rem;background:#0a0a0f;border:1px solid #1a1a2a;border-radius:12px;padding:1.5rem;transition:border-color 0.2s}
+.step:hover{border-color:#1a1a3a}
+.step-num{position:absolute;left:-2.5rem;top:1.5rem;width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:0.7rem;z-index:1;color:#050508}
+.step-num.c-design{background:#bb9af7}
+.step-num.c-build{background:#9ece6a}
+.step-num.c-test{background:#d4a574}
+.step-num.c-ship{background:#f7768e}
+.step-title{font-size:1.05rem;color:#fff;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+.badge{font-size:0.6rem;padding:2px 7px;border-radius:10px;font-weight:bold;text-transform:uppercase}
+.b-req{background:#f7768e;color:#050508}
+.b-rec{background:#9ece6a;color:#050508}
+.b-opt{background:#555;color:#050508}
+
+/* Skills grid */
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0}
+@media(max-width:700px){.skill-grid{grid-template-columns:1fr}}
+.skill-card{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:10px;padding:1rem}
+.skill-card h4{color:#7aa2f7;font-size:0.85rem;margin-bottom:0.25rem}
+.skill-card p{color:#888;font-size:0.78rem;line-height:1.5}
+.skill-card .inv{color:#9ece6a;font-size:0.7rem;margin-top:0.3rem}
+.cat-label{color:#d4a574;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;margin-top:2rem;margin-bottom:0.5rem}
+
+/* Hooks */
+.hook-card{background:#0a0a0f;border-left:3px solid #f7768e;border-radius:0 10px 10px 0;padding:1rem 1.5rem;margin:0.75rem 0}
+.hook-card h4{color:#f7768e;font-size:0.85rem}
+.hook-card .trigger{color:#d4a574;font-size:0.78rem;margin:0.2rem 0}
+.hook-card p{color:#c0c0c0;font-size:0.82rem}
+
+/* Glossary */
+.glossary-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0}
+@media(max-width:700px){.glossary-grid{grid-template-columns:1fr}}
+.gloss-card{background:#0a0a0f;border:1px solid #1a1a2a;border-radius:10px;padding:1rem}
+.gloss-card h4{color:#7aa2f7;font-size:0.85rem;margin-bottom:0.2rem}
+.gloss-card p{color:#888;font-size:0.78rem;line-height:1.5}
+
+footer{margin-top:4rem;padding-top:1.5rem;border-top:1px solid #1a1a2a;color:#666;font-size:0.75rem;text-align:center;padding-bottom:2rem}
+footer a{color:#777;text-decoration:none}
+footer a:hover{color:#00ff88}
+</style>
+</head>
+<body>
+<div class="pixel-grid"></div>
+
+<!-- ===== LOCK SCREEN ===== -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h1>Private Resource</h1>
+    <p>This guide was shared with you by a friend at Accelerando AI.<br>Enter the password to access it.</p>
+    <input type="password" class="lock-input" id="pw-input" placeholder="password" autofocus>
+    <button class="lock-btn" id="pw-btn">Unlock</button>
+    <div class="lock-error" id="pw-error">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main-content">
+<div class="container">
+
+<div class="top-bar">
+  <a href="https://accelerando.ai">← accelerando.ai</a>
+  <span style="color:#555;font-size:0.75rem">Private Guide · Feb 2026</span>
+</div>
+
+<!-- ===== DOWNLOADS ===== -->
+<div class="downloads">
+  <h2>📦 Downloads</h2>
+  <p>Grab everything you need to set up your own Claude Code workflow with custom skills, hooks, and commands.</p>
+  <div class="dl-grid">
+    <a href="files/claude-code-guide.zip" class="dl-card" download>
+      <div class="dl-icon">📁</div>
+      <div class="dl-info">
+        <strong>Complete Package (ZIP)</strong>
+        <span>All skills, commands, and this guide — 309 KB</span>
+      </div>
+      <div class="dl-badge">Download</div>
+    </a>
+    <a href="files/skills/" class="dl-card">
+      <div class="dl-icon">⚡</div>
+      <div class="dl-info">
+        <strong>Browse Skills</strong>
+        <span>21 custom skills — browse individually</span>
+      </div>
+      <div class="dl-badge">Browse</div>
+    </a>
+    <a href="files/commands/" class="dl-card">
+      <div class="dl-icon">📋</div>
+      <div class="dl-info">
+        <strong>Browse Commands</strong>
+        <span>3 compound workflow commands</span>
+      </div>
+      <div class="dl-badge">Browse</div>
+    </a>
+  </div>
+</div>
+
+<!-- ===== THE GUIDE ===== -->
+<div class="guide-content">
+
+<h2>Part 1 — What is Claude Code?</h2>
+
+<p>Claude Code is an AI coding assistant that runs <strong style="color:#fff">in your terminal</strong>. You type natural language ("add a login page") and it reads your files, writes code, runs commands, and builds features — all while you watch and approve each step.</p>
+
+<h3>Installing & Starting</h3>
+<div class="cmd-label">Install (one time)</div>
+<div class="cmd">npm install -g @anthropic-ai/claude-code</div>
+
+<div class="cmd-label">Start a session in any project</div>
+<div class="cmd">cd my-project
+claude</div>
+
+<p>That's it. You're in an interactive chat with Claude inside your project. It can see your files, understand your codebase, and make changes.</p>
+
+<div class="cmd-label">Things you can say inside Claude Code</div>
+<div class="cmd">"explain what src/auth.py does"
+"add a logout button to the navbar"
+"fix the bug where users see a blank page after login"
+"run the tests and fix any failures"</div>
+
+<!-- ===== WORKFLOW ===== -->
+<h2>Part 2 — The Full Workflow</h2>
+
+<div class="flow">
+  <div class="flow-box fb-design">Idea</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-design">Design</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-build">Branch</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-build">Build</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-review">Design Review</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-test">QA</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-ship">Push + PR</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-ship">Code Review</div>
+  <span class="flow-arrow">→</span>
+  <div class="flow-box fb-ship">Merge</div>
+</div>
+
+<div class="timeline">
+
+  <div class="step">
+    <div class="step-num c-design">1</div>
+    <div class="step-title">Start with an Idea <span class="badge b-req">start here</span></div>
+    <p>You have something you want to build. "Add dark mode" or "let users export to PDF." Before touching any code, you need a plan.</p>
+    <div class="analogy">Like an architect drawing blueprints before construction begins.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-design">2</div>
+    <div class="step-title">Design & Architecture <span class="badge b-rec">recommended</span></div>
+    <p>Ask Claude Code to think through the design before building. This catches bad decisions early.</p>
+    <div class="cmd-label">Built-in way (plan mode)</div>
+    <div class="cmd">> "plan how to add dark mode to this app"</div>
+    <p>Claude enters <strong style="color:#fff">plan mode</strong> — it explores your codebase, identifies the right files, and presents an implementation plan for your approval before writing any code.</p>
+    <div class="cmd-label">Custom skill (Dave the Architect)</div>
+    <div class="cmd">> /dave
+> "I want to add dark mode. What's the best approach?"</div>
+    <p>Dave is a custom "senior architect" persona that hardens specs, spots edge cases, and picks the right patterns. He asks tough questions before you commit to a design.</p>
+    <div class="note"><strong>Why this matters:</strong> 30 minutes of design saves hours of rework. Even if you skip it for small tasks, always design for anything touching multiple files or adding new features.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-build">3</div>
+    <div class="step-title">Create a Branch <span class="badge b-req">required</span></div>
+    <p>A <strong style="color:#fff">branch</strong> is like a parallel universe for your code. You make changes there without affecting the main version.</p>
+    <div class="cmd-label">Create and switch to a new branch</div>
+    <div class="cmd">git checkout -b feature/dark-mode</div>
+    <p><code style="color:#9ece6a">git checkout -b</code> = create a new branch AND switch to it. <code style="color:#9ece6a">feature/dark-mode</code> = the branch name (convention: feature/, fix/, or chore/ prefix).</p>
+    <div class="analogy">Like creating a "Draft" copy of a Google Doc. Edit freely — the original is untouched.</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-build">4</div>
+    <div class="step-title">Build the Feature <span class="badge b-req">required</span></div>
+    <p>Now you write code. With Claude Code, describe what you want and it writes it for you, showing every change for approval.</p>
+    <div class="cmd-label">Interactive building (you + Claude)</div>
+    <div class="cmd">> "implement dark mode following the plan we made"</div>
+    <div class="cmd-label">Headless / overnight mode (Ralph)</div>
+    <div class="cmd">claude -p "implement dark mode per the spec in SPEC.md" \
+  --allowedTools Edit,Write,Bash,Read,Glob,Grep</div>
+    <p><strong style="color:#fff">Ralph</strong> = running Claude Code autonomously. Give it a spec, let it work unattended (e.g., overnight). The <code style="color:#9ece6a">-p</code> flag runs a single prompt without interactive chat.</p>
+    <h3>Saving Progress (Commits)</h3>
+    <div class="cmd">git add src/theme.js src/components/ThemeToggle.jsx
+git commit -m "Add dark mode toggle component"</div>
+    <p><code style="color:#9ece6a">git add</code> = stage files (mark for saving). <code style="color:#9ece6a">git commit -m</code> = save a snapshot with a description. Commits are "save points" — make them often.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-design">5</div>
+    <div class="step-title">Design Review <span class="badge b-rec">recommended for UI</span></div>
+    <p>If your feature has a <strong style="color:#fff">user interface</strong>, get the design reviewed before moving to QA. This catches usability problems, visual hierarchy issues, and accessibility gaps.</p>
+    <div class="cmd-label">Design critique (Nielsen's heuristics)</div>
+    <div class="cmd">> /design-critic
+> [paste a screenshot or describe the UI]</div>
+    <p>Evaluates your UI against established usability principles. Catches poor contrast, missing error states, confusing navigation, inconsistent spacing.</p>
+    <div class="cmd-label">Accessibility audit</div>
+    <div class="cmd">> /a11y-audit</div>
+    <p>Checks against WCAG 2.2 AA: color contrast, keyboard nav, screen readers, focus management.</p>
+    <div class="cmd-label">Mobile-specific review</div>
+    <div class="cmd">> /julie
+> "review the mobile experience of this page"</div>
+    <p>Julie is a mobile web UX specialist. Checks touch targets, scroll behavior, viewport issues.</p>
+    <div class="warning"><strong>Don't skip design review for user-facing features.</strong> Code that works perfectly can still be unusable. A 5-minute design check prevents "it works but nobody can figure it out."</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-test">6</div>
+    <div class="step-title">QA / Testing <span class="badge b-rec">recommended</span></div>
+    <p>Before sharing your work, verify it actually works end-to-end.</p>
+    <div class="cmd">> /qa
+> "verify dark mode works across all pages"</div>
+    <p>QA Sentinel runs 6 phases: read requirements, identify scenarios, run tests, check edge cases, verify behavior, report findings.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-ship">7</div>
+    <div class="step-title">Push to GitHub <span class="badge b-req">required</span></div>
+    <p>Upload your branch to GitHub so others (and review tools) can see it.</p>
+    <div class="cmd">git push -u origin feature/dark-mode</div>
+    <p>Your code is now on GitHub but still <strong style="color:#fff">NOT merged into main</strong>. It's parked there as a draft.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-ship">8</div>
+    <div class="step-title">Open a Pull Request (PR) <span class="badge b-req">required</span></div>
+    <p>A <strong style="color:#fff">Pull Request</strong> = "Here are my changes. Review them before they become official." Shows every line changed, a description, and a place for discussion.</p>
+    <div class="cmd">gh pr create --title "Add dark mode" --body "Adds theme toggle..."</div>
+    <p><code style="color:#9ece6a">gh</code> = GitHub CLI. <code style="color:#9ece6a">pr create</code> = create a pull request.</p>
+    <div class="analogy">Like submitting an essay for review — "here's what I wrote, please check it before we publish."</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-ship">9</div>
+    <div class="step-title">Code Review <span class="badge b-rec">recommended</span></div>
+    <p>Claude Code's <strong style="color:#fff">/code-review</strong> dispatches 5 AI agents to independently review your PR: bugs, security, rule compliance, git history, code comments.</p>
+    <div class="cmd-label">Review locally</div>
+    <div class="cmd">> /code-review</div>
+    <div class="cmd-label">Post review comments directly to GitHub PR</div>
+    <div class="cmd">> /code-review --comment</div>
+    <div class="cmd-label">Quick spot-check (lighter, single-pass)</div>
+    <div class="cmd">> /richter</div>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-ship">10</div>
+    <div class="step-title">Fix & Merge <span class="badge b-req">required</span></div>
+    <p>Fix review issues, push again, then merge.</p>
+    <div class="cmd">git add -A && git commit -m "Fix review findings"
+git push</div>
+    <div class="cmd-label">Merge (squash = combine all commits into one clean one)</div>
+    <div class="cmd">gh pr merge --squash</div>
+    <p><strong style="color:#fff">Squash merge</strong> = all your branch commits become one clean commit on main. Feature is now official.</p>
+  </div>
+
+  <div class="step">
+    <div class="step-num c-ship">11</div>
+    <div class="step-title">Deploy <span class="badge b-req">required</span></div>
+    <p>Make your changes live. Depends on your project — restart a server, push to cloud, or auto-deploy on merge.</p>
+    <div class="cmd">npm run build && npm start</div>
+  </div>
+
+</div><!-- end timeline -->
+
+<!-- ===== HOOKS ===== -->
+<h2>Part 3 — Hooks (Automatic Safety Checks)</h2>
+
+<p><strong style="color:#fff">Hooks</strong> are rules in a <code style="color:#9ece6a">CLAUDE.md</code> file that Claude follows automatically. They trigger on specific events and run safety checks. Think of them as guardrails.</p>
+
+<p>Two levels: <strong style="color:#fff">global</strong> (all projects) and <strong style="color:#fff">project-level</strong> (one repo).</p>
+
+<div class="hook-card">
+  <h4>Public Repo Safety Gate</h4>
+  <div class="trigger">Triggers: before any git add or git commit in a public repo</div>
+  <p>Scans every file for secrets, internal strategy docs, competitor analysis, or private info. Blocks the commit if anything sensitive is found.</p>
+</div>
+
+<div class="hook-card">
+  <h4>Pre-Commit Gate</h4>
+  <div class="trigger">Triggers: before any git commit</div>
+  <p>Runs type checking, all tests, and a full build. If anything fails, the commit is blocked until you fix it. Prevents broken code from ever being saved.</p>
+</div>
+
+<div class="hook-card">
+  <h4>QA Gate (Pre-Deploy)</h4>
+  <div class="trigger">Triggers: before any deploy, restart, or "it's ready" message</div>
+  <p>Validates types, tests, browser JS syntax, builds, and rendered HTML output. Ensures what you're about to make live actually works.</p>
+</div>
+
+<div class="hook-card">
+  <h4>Post-Build Review Gate</h4>
+  <div class="trigger">Triggers: after completing changes, before saying "done"</div>
+  <p>Runs CI checklist, checks for stale TODOs, verifies test coverage for new functions, validates module boundary types.</p>
+</div>
+
+<div class="hook-card">
+  <h4>Visual Plan Presentation</h4>
+  <div class="trigger">Triggers: when exiting plan mode (for plans with 3+ sections)</div>
+  <p>Generates a visual HTML page instead of plain text plans. Opens in the browser for easier review.</p>
+</div>
+
+<h3>How to Create Your Own</h3>
+<p>Add rules to your <code style="color:#9ece6a">CLAUDE.md</code> file:</p>
+<div class="cmd">## My Custom Hook
+
+**HOOK: Before [trigger event], do [these checks]. No exceptions.**
+
+1. Step one...
+2. Step two...</div>
+<p>Claude reads these instructions and follows them automatically in every session.</p>
+
+<!-- ===== SKILLS ===== -->
+<h2>Part 4 — Skills (Slash Commands)</h2>
+
+<p>Skills are specialized capabilities invoked with <code style="color:#9ece6a">/command</code> syntax. Some are built into Claude Code, others are custom.</p>
+
+<div class="cat-label">Architecture & Design</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/dave (Dave the Architect)</h4><p>Senior architect persona. 4 modes: spec hardening, pre-flight gate, mid-session opinion, parallel work planning.</p><div class="inv">Custom · /dave</div></div>
+  <div class="skill-card"><h4>/shaping</h4><p>Collaborative problem/solution shaping. Iterates on requirements and solution options before committing.</p><div class="inv">Custom · /shaping</div></div>
+  <div class="skill-card"><h4>/breadboarding</h4><p>Maps workflows into affordance tables showing UI elements and code interfaces with wiring.</p><div class="inv">Custom · /breadboarding</div></div>
+  <div class="skill-card"><h4>/brand-architect</h4><p>Builds complete design systems: color palettes, typography, component libraries, brand guidelines.</p><div class="inv">Custom · /brand-architect</div></div>
+</div>
+
+<div class="cat-label">Design Review</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/design-critic</h4><p>Critiques UI/UX against Nielsen's 10 heuristics. Scores visual hierarchy, consistency, error prevention. Prioritized fixes.</p><div class="inv">Custom · /design-critic</div></div>
+  <div class="skill-card"><h4>/julie (Mobile UX)</h4><p>Mobile web review: touch targets, viewport, scroll behavior, design tokens, QA checkpoints.</p><div class="inv">Custom · /julie</div></div>
+  <div class="skill-card"><h4>/a11y-audit</h4><p>WCAG 2.2 AA accessibility audit. Color contrast, keyboard nav, screen readers, focus management.</p><div class="inv">Custom · /a11y-audit</div></div>
+</div>
+
+<div class="cat-label">Code Review & Quality</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/code-review</h4><p>Built-in multi-agent review. 5 parallel reviewers check bugs, security, compliance, history, comments.</p><div class="inv">Built-in · /code-review</div></div>
+  <div class="skill-card"><h4>/richter</h4><p>Single-pass code review. BIG mode (structural) and SMALL mode (tweaks). Lighter than /code-review.</p><div class="inv">Custom · /richter</div></div>
+  <div class="skill-card"><h4>/simplify</h4><p>Reviews changed code for reuse, quality, and efficiency. Fixes what it finds.</p><div class="inv">Built-in · /simplify</div></div>
+  <div class="skill-card"><h4>/dead-code</h4><p>Detects unused imports, functions, classes. Framework-aware (won't delete hooks, models, etc.).</p><div class="inv">Custom · /dead-code</div></div>
+</div>
+
+<div class="cat-label">Testing & Security</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/qa (QA Sentinel)</h4><p>6-phase QA: requirements → scenarios → tests → edge cases → behavior → report.</p><div class="inv">Custom · /qa</div></div>
+  <div class="skill-card"><h4>/security-scan</h4><p>7-check security audit: dependencies, secrets, input validation, auth, OWASP Top 10.</p><div class="inv">Custom · /security-scan</div></div>
+  <div class="skill-card"><h4>/tech-debt</h4><p>Codebase health scan: code quality, test gaps, dependency rot, docs, performance.</p><div class="inv">Custom · /tech-debt</div></div>
+</div>
+
+<div class="cat-label">Workflow & Shipping</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/ship</h4><p>Automated push → PR → CI monitoring. Retries on flaky failures.</p><div class="inv">Custom · /ship</div></div>
+  <div class="skill-card"><h4>/handoff</h4><p>Generates handoff docs for continuing work in a new session. Captures context + next steps.</p><div class="inv">Custom · /handoff</div></div>
+  <div class="skill-card"><h4>/claudeception</h4><p>Extracts reusable knowledge from sessions. Creates new skills from debugging patterns.</p><div class="inv">Custom · /claudeception</div></div>
+  <div class="skill-card"><h4>/visual-explainer</h4><p>Generates self-contained HTML pages that visually explain systems, changes, or data.</p><div class="inv">Custom · /visual-explainer</div></div>
+</div>
+
+<div class="cat-label">Marketing & Content</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/campaign-factory</h4><p>Generates marketing assets: ad copy, email sequences, landing pages, social content.</p><div class="inv">Custom · /campaign-factory</div></div>
+  <div class="skill-card"><h4>/consumer-psychology</h4><p>Mental models for conversion: FOMO, social proof, identity marketing, cognitive biases.</p><div class="inv">Custom · /consumer-psychology</div></div>
+  <div class="skill-card"><h4>/x-extractor</h4><p>Extracts full content from X/Twitter posts and threads.</p><div class="inv">Custom · /x-extractor</div></div>
+</div>
+
+<div class="cat-label">Compound Workflows</div>
+<div class="skill-grid">
+  <div class="skill-card"><h4>/compound-full</h4><p>Full compound review: Dave pre-flight gate + task execution in sequence.</p><div class="inv">Custom command · /compound-full</div></div>
+  <div class="skill-card"><h4>/compound-execute</h4><p>Pre-flight gate (Dave Mode 2) for autonomous task runs like Ralph.</p><div class="inv">Custom command · /compound-execute</div></div>
+</div>
+
+<!-- ===== GLOSSARY ===== -->
+<h2>Part 5 — Key Concepts</h2>
+
+<div class="glossary-grid">
+  <div class="gloss-card"><h4>CLAUDE.md</h4><p>Instructions file Claude always follows. Global (~/.claude/CLAUDE.md) for all projects, or per-project in repo root. Like "house rules."</p></div>
+  <div class="gloss-card"><h4>Branch</h4><p>Isolated copy of your code. <code style="color:#9ece6a">main</code> is the real version. Feature branches are drafts. Merge when ready.</p></div>
+  <div class="gloss-card"><h4>Commit</h4><p>A save point. Records what changed and why. You can always go back to any previous commit.</p></div>
+  <div class="gloss-card"><h4>Pull Request (PR)</h4><p>Request to merge your branch into main. Shows all changes, enables discussion and review.</p></div>
+  <div class="gloss-card"><h4>Plan Mode</h4><p>Claude explores your codebase and designs an approach before writing code. You approve the plan first.</p></div>
+  <div class="gloss-card"><h4>Headless Mode (Ralph)</h4><p>Running Claude with <code style="color:#9ece6a">-p</code> flag for autonomous, unattended work. Give it a spec, let it build overnight.</p></div>
+  <div class="gloss-card"><h4>Squash Merge</h4><p>Combining all branch commits into one clean commit when merging. Keeps main history tidy.</p></div>
+  <div class="gloss-card"><h4>Hook</h4><p>Automatic rule in CLAUDE.md triggered on events (commit, deploy, plan exit). Runs safety checks without you remembering.</p></div>
+</div>
+
+</div><!-- end guide-content -->
+
+<footer>
+  <a href="https://accelerando.ai">accelerando.ai</a> · Shared with care · Feb 2026
+</footer>
+
+</div><!-- container -->
+</div><!-- main-content -->
+
+<script>
+(function() {
+  var HASH = '6d6178'; // hex of 'max'
+  function toHex(s) {
+    return s.split('').map(function(c) { return c.charCodeAt(0).toString(16); }).join('');
+  }
+  function unlock() {
+    var pw = document.getElementById('pw-input').value.toLowerCase().trim();
+    if (toHex(pw) === HASH) {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      try { sessionStorage.setItem('cg_unlocked', '1'); } catch(e) {}
+    } else {
+      document.getElementById('pw-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+  document.getElementById('pw-btn').addEventListener('click', unlock);
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') unlock();
+  });
+  // Persist within session
+  try {
+    if (sessionStorage.getItem('cg_unlocked') === '1') {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+  } catch(e) {}
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "name": "scrapling",
+  "description": "High-performance adaptive web scraping with anti-bot bypass. Provides both MCP server integration (recommended for zero-code scraping via Claude Code/Desktop tools) and Python library skill (for custom scraping pipelines). Handles Cloudflare protection, JavaScript rendering, adaptive element tracking that survives website redesigns, and parallel batch operations. Critical for accelerandoAI article extraction and other web data projects.",
+  "version": "1.0.0",
+  "author": "Jonathan (based on D4Vinci/Scrapling)",
+  "triggers": [
+    "web scraping",
+    "scrape website",
+    "extract web content",
+    "bypass Cloudflare",
+    "anti-bot detection",
+    "JavaScript rendering",
+    "scrape Twitter",
+    "scrape X article",
+    "adaptive scraping",
+    "batch web scraping",
+    "parallel scraping"
+  ],
+  "dependencies": {
+    "python_packages": [
+      "scrapling[fetchers]",
+      "scrapling[ai]"
+    ],
+    "system": [
+      "scrapling install (browser dependencies)"
+    ]
+  },
+  "use_cases": [
+    "accelerandoAI: X/Twitter article extraction for cliff notes video generation",
+    "Bot-protected site scraping (Cloudflare Turnstile/Interstitial bypass)",
+    "JavaScript-heavy SPA/dynamic content extraction",
+    "Production scrapers that need resilience to website redesigns (adaptive mode)",
+    "Batch parallel URL scraping with concurrent operations",
+    "MCP integration: Zero-code web scraping via Claude Code/Desktop tools"
+  ],
+  "alternatives": {
+    "mcp_server": {
+      "description": "Use Scrapling MCP server for zero-code integration with Claude Code/Desktop",
+      "when_to_use": "Quick data extraction, autonomous Claude scraping strategy, minimal custom processing",
+      "setup": "See MCP-SETUP.md"
+    },
+    "python_skill": {
+      "description": "Use Scrapling Python library for custom scraping pipelines",
+      "when_to_use": "Complex data transformation, database/API integration, accelerandoAI workflows",
+      "docs": "See SKILL.md"
+    }
+  },
+  "tags": [
+    "web-scraping",
+    "anti-detection",
+    "cloudflare-bypass",
+    "javascript-rendering",
+    "adaptive-scraping",
+    "mcp-server",
+    "accelerandoAI"
+  ]
+}
